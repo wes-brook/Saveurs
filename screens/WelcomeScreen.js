@@ -1,14 +1,26 @@
+/*|==========================================================================================================================
+ *| File: WelcomeScreen.js
+ *| Author: Wesly Barayuga
+ *| Date: 9/17/2024
+ *| Purpose: ///
+ *|
+ *| Revision History:
+ *|   - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
+ *|
+ *| User Notice:
+ *|   - ///
+ *|==========================================================================================================================*/
+
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-//import LinearGradient from 'react-native-linear-gradient';
 import {LinearGradient} from 'expo-linear-gradient';
 
-const StartScreen = ({ navigation }) => {
+const WelcomeScreen = ({ navigation }) => {
     const { height } = Dimensions.get('window');
     const linePosition = height * 0.618; // 1/4 from the bottom
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('SignUpScreen')}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('LoginScreen')}>
           <LinearGradient colors={['#AE3838', '#4E1818']} style={styles.container}>
             <Image source={require('../assets/icon.png')} style={styles.logo} />
             <View style={[styles.line, { top: linePosition }]} />
@@ -45,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StartScreen;
+export default WelcomeScreen;
