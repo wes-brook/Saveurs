@@ -11,11 +11,45 @@
  *|   - Need to change this file name to "SignInScreen.js"
  *|==========================================================================================================================*/
 
-import React from 'react';
+import React, {useState} from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FIREBASE_AUTH } from '../FirebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH;
+
+  const signIn = async () => {
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      alert("Sign in failed: " + error.message)
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const signUp = async () => {
+    setLoading(true);
+    try {
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      alert("Check your emails");
+    } catch (error) {
+      console.log(error);
+      alert("Sign in failed: " + error.message)
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
       
@@ -27,8 +61,8 @@ const LoginScreen = ({ navigation }) => {
 
       {/* Display & handle user inputs for login */}
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Enter Email" keyboardType="email-address" />
-        <TextInput style={styles.input} placeholder="Enter Password" secureTextEntry={true} />
+        <TextInput style={styles.input} value = {email} placeholder="Enter Email" keyboardType="email-address" autoCapitalize="none" onChangeText={(text) => setEmail(text)}/>
+        <TextInput style={styles.input} value = {password} placeholder="Enter Password" secureTextEntry={true} autoCapitalize="none" onChangeText={(text) => setPassword (text)}/>
         
         {/* Handle "Forgot Password" transition to "ForgotPassword.js" */}
         <TouchableOpacity>
@@ -37,14 +71,16 @@ const LoginScreen = ({ navigation }) => {
       </View>
 
       {/* Handle "Next" button transition to "HomeScreen.js" */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomeScreen')}>
+      {/*navigation.navigate('HomeScreen')}>*/}
+      <TouchableOpacity style={styles.button} onPress={signIn}>                 
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
 
       {/* Handle "Sign Up" button transition to "SignUp.js" */}
       <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>Don't have an Account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        {/*navigation.navigate('SignUp')}>*/}
+        <TouchableOpacity onPress={signUp}>                                     
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
