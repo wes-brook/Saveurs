@@ -1,15 +1,15 @@
-/*|==========================================================================================================================
- *| File: WelcomeScreen.js
- *| Author: Wesly Barayuga
- *| Date: 9/17/2024
- *| Purpose: ///
- *|
- *| Revision History:
- *|   - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
- *|
- *| User Notice:
- *|   - ///
- *|==========================================================================================================================*/
+/* ==========================================================================================================================
+ *  File: WelcomeScreen.js
+ *  Author: Wesly Barayuga
+ *  Date: 9/17/2024
+ *  Purpose: ///
+ * 
+ *  Revision History:
+ *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
+ * 
+ *  User Notice:
+ *    - ///
+ * ========================================================================================================================== */
 
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';

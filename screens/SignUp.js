@@ -1,21 +1,46 @@
-/*|==========================================================================================================================
- *| File: SignUp.js
- *| Author: Wesly Barayuga
- *| Date: 9/17/2024
- *| Purpose: ///
- *|
- *| Revision History:
- *|   - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
- *|
- *| User Notice:
- *|   - ///
- *|==========================================================================================================================*/
+/* ==========================================================================================================================
+ *  File: SignUp.js
+ *  Author: Wesly Barayuga
+ *  Date: 9/17/2024
+ *  Purpose: ///
+ * 
+ *  Revision History:
+ *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
+ * 
+ *  User Notice:
+ *    - ///
+ * ========================================================================================================================== */
 
- import React from 'react';
+ import React, {useState} from 'react';
  import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
  import { LinearGradient } from 'expo-linear-gradient';
+ import { FIREBASE_AUTH } from '../FirebaseConfig';
+ import { createUserWithEmailAndPassword } from 'firebase/auth';
  
  const LoginScreen = ({ navigation }) => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH;
+
+  const signUp = async () => {
+    setLoading(true);
+    try {
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      alert("Account created! You may now sign in.");
+      return true;  // Return true on success
+    } catch (error) {
+      console.log(error);
+      alert("Sign up failed: " + error.message);
+      return false; // Return false on failure
+    } finally {
+      setLoading(false); // Note: "finally" will always run no matter what
+    }
+  };
+  
+
    return (
      <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.container}>
        
@@ -27,22 +52,25 @@
  
        {/* Display & handle user inputs for login */}
        <View style={styles.inputContainer}>
-         <TextInput style={styles.input} placeholder="Enter Email" keyboardType="email-address" />
-         <TextInput style={styles.input} placeholder="Enter Password" secureTextEntry={true} />
+         <TextInput style={styles.input} autoCapitalize="none" placeholder="Enter Email" keyboardType="email-address" onChangeText={(text) => setEmail(text)}/>
+         <TextInput style={styles.input} autoCapitalize="none" placeholder="Enter Password" secureTextEntry={true} onChangeText={(text) => setPassword (text)}/>
        </View>
  
        {/* Handle "Next" button transition to "HomeScreen.js" */}
-       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoginScreen')}>
-         <Text style={styles.buttonText}>Create Account</Text>
+       <TouchableOpacity style={styles.button} onPress={async () => {const success = await signUp(); if (success) {navigation.navigate('LoginScreen');}}}>
+        <Text style={styles.buttonText}>Create Account</Text>
        </TouchableOpacity>
  
        {/* Handle "Sign Up" button transition to "SignUp.js" */}
        <View style={styles.signUpContainer}>
-         <Text style={styles.accountText}>Already have an Account? </Text>
-         <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-           <Text style={styles.signUpText}>Login</Text>
-         </TouchableOpacity>
+        <Text style={styles.accountText}>
+          Already have an Account?{" "}  
+          <Text style={styles.signUpText} onPress={() => navigation.navigate('LoginScreen')}>
+            Login
+          </Text>
+        </Text>
        </View>
+
      </LinearGradient>
    );
  };

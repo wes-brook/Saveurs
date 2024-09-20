@@ -1,21 +1,21 @@
-/*|==========================================================================================================================
- *| File: LoginScreen.js
- *| Author: Wesly Barayuga
- *| Date: 9/17/2024
- *| Purpose: Display UI for user sign in and handle user authentication events
- *|
- *| Revision History:
- *|   - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
- *|
- *| User Notice:
- *|   - Need to change this file name to "SignInScreen.js"
- *|==========================================================================================================================*/
+/* ==========================================================================================================================
+ *  File: LoginScreen.js
+ *  Author: Wesly Barayuga
+ *  Date: 9/17/2024
+ *  Purpose: Display UI for user sign in and handle user authentication events
+ * 
+ *  Revision History:
+ *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
+ * 
+ *  User Notice:
+ *    - Need to change this file name to "SignInScreen.js"
+ * ========================================================================================================================== */
 
 import React, {useState} from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -28,27 +28,17 @@ const LoginScreen = ({ navigation }) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
+      return true; // Return true on success
     } catch (error) {
       console.log(error);
-      alert("Sign in failed: " + error.message)
+      //alert("Sign in failed: " + error.message)
+      alert("Invalid email or password. Please try again.")
+      return false; // Return false on failure
     } finally {
-      setLoading(false);
+      setLoading(false); // Note: "finally" will always run no matter what
     }
   }
 
-  const signUp = async () => {
-    setLoading(true);
-    try {
-      const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      alert("Check your emails");
-    } catch (error) {
-      console.log(error);
-      alert("Sign in failed: " + error.message)
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
@@ -66,21 +56,19 @@ const LoginScreen = ({ navigation }) => {
         
         {/* Handle "Forgot Password" transition to "ForgotPassword.js" */}
         <TouchableOpacity>
-          <Text style={styles.forgotPassword} onPress={() => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
+          <Text style={styles.forgotPassword} onPress={async () => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
 
       {/* Handle "Next" button transition to "HomeScreen.js" */}
-      {/*navigation.navigate('HomeScreen')}>*/}
-      <TouchableOpacity style={styles.button} onPress={signIn}>                 
+      <TouchableOpacity style={styles.button} onPress={async () => {const success = await signIn(); if (success) {navigation.navigate("HomeScreen")}}}>                 
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
 
       {/* Handle "Sign Up" button transition to "SignUp.js" */}
       <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>Don't have an Account? </Text>
-        {/*navigation.navigate('SignUp')}>*/}
-        <TouchableOpacity onPress={signUp}>                                     
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>                                     
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>

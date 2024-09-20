@@ -1,15 +1,15 @@
-/*|==========================================================================================================================
- *| File: App.js
- *| Author: Wesly Barayuga
- *| Date: 9/17/2024
- *| Purpose: Facilitate app work flow
- *|
- *| Revision History:
- *|   - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
- *|
- *| User Notice:
- *|   - Will want to move navigation flow into seperate js file in future [9/17/24]
- *|==========================================================================================================================*/
+/* ==========================================================================================================================
+ *  File: App.js
+ *  Author: Wesly Barayuga
+ *  Date: 9/17/2024
+ *  Purpose: Facilitate app work flow
+ * 
+ *  Revision History:
+ *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
+ * 
+ *  User Notice:
+ *    - Will want to move navigation flow into seperate js file in future [9/17/24]
+ * ========================================================================================================================== */
 
 import React from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
@@ -20,6 +20,8 @@ import HomeScreen from './screens/HomeScreen';
 import ForgotPassword from './screens/ForgotPassword';
 import SignUp from './screens/SignUp'
 import { StatusBar } from 'expo-status-bar';
+
+// Note: will need to implement interal and external stacks because a user shouldn't be able to swipe back to the login screen after reaching the home page
 
 const Stack = createStackNavigator();
 
