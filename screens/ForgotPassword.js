@@ -2,7 +2,7 @@
  *  File: ForgotPassword.js
  *  Author: Wesly Barayuga
  *  Date: 9/17/2024
- *  Purpose: ///
+ *  Purpose: This screen allows users to reset their password using their email address
  * 
  *  Revision History:
  *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga

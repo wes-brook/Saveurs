@@ -17,7 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,47 +28,60 @@ const LoginScreen = ({ navigation }) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
-      return true; // Return true on success
+      setIsAuthenticated(true); // Set authenticated status to true after successful login
+      return true;
     } catch (error) {
       console.log(error);
-      //alert("Sign in failed: " + error.message)
-      alert("Invalid email or password. Please try again.")
-      return false; // Return false on failure
+      alert("Invalid email or password. Please try again.");
+      return false;
     } finally {
-      setLoading(false); // Note: "finally" will always run no matter what
+      setLoading(false);
     }
-  }
-
+  };
 
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
-      
-      {/* Display "Sign In" title */}
       <Text style={styles.title}>Sign In</Text>
-
-      {/* Display logo */}
       <Image source={require('../assets/icon.png')} style={styles.logo} />
-
-      {/* Display & handle user inputs for login */}
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} value = {email} placeholder="Enter Email" keyboardType="email-address" autoCapitalize="none" onChangeText={(text) => setEmail(text)}/>
-        <TextInput style={styles.input} value = {password} placeholder="Enter Password" secureTextEntry={true} autoCapitalize="none" onChangeText={(text) => setPassword (text)}/>
-        
-        {/* Handle "Forgot Password" transition to "ForgotPassword.js" */}
+        <TextInput 
+          style={styles.input} 
+          value={email} 
+          placeholder="Enter Email" 
+          keyboardType="email-address" 
+          autoCapitalize="none" 
+          onChangeText={(text) => setEmail(text)} 
+        />
+        <TextInput 
+          style={styles.input} 
+          value={password} 
+          placeholder="Enter Password" 
+          secureTextEntry={true} 
+          autoCapitalize="none" 
+          onChangeText={(text) => setPassword(text)} 
+        />
         <TouchableOpacity>
-          <Text style={styles.forgotPassword} onPress={async () => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
+          <Text style={styles.forgotPassword} onPress={() => navigation.navigate('ForgotPassword')}>
+            Forgot Password?
+          </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Handle "Next" button transition to "HomeScreen.js" */}
-      <TouchableOpacity style={styles.button} onPress={async () => {const success = await signIn(); if (success) {navigation.navigate("HomeScreen")}}}>                 
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={async () => {
+          const success = await signIn();
+          if (success) {
+            navigation.navigate("HomeScreen");
+          }
+        }}
+      >                 
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
 
-      {/* Handle "Sign Up" button transition to "SignUp.js" */}
       <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>Don't have an Account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>                                     
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>

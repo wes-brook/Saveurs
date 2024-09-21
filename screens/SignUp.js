@@ -2,7 +2,7 @@
  *  File: SignUp.js
  *  Author: Wesly Barayuga
  *  Date: 9/17/2024
- *  Purpose: ///
+ *  Purpose: Account creation screen using email/password inputs
  * 
  *  Revision History:
  *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga

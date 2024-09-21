@@ -2,7 +2,7 @@
  *  File: WelcomeScreen.js
  *  Author: Wesly Barayuga
  *  Date: 9/17/2024
- *  Purpose: ///
+ *  Purpose: Splash screen
  * 
  *  Revision History:
  *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga

@@ -11,31 +11,46 @@
  *    - Will want to move navigation flow into seperate js file in future [9/17/24]
  * ========================================================================================================================== */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ForgotPassword from './screens/ForgotPassword';
-import SignUp from './screens/SignUp'
+import SignUp from './screens/SignUp';
 import { StatusBar } from 'expo-status-bar';
 
-// Note: will need to implement interal and external stacks because a user shouldn't be able to swipe back to the login screen after reaching the home page
+const AuthStack = createStackNavigator();
+function AuthStackScreen({ setIsAuthenticated }) {
+  return (
+    <AuthStack.Navigator>
+      <AuthStack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+      <AuthStack.Screen name="LoginScreen" options={{ headerShown: false }}>
+        {(props) => <LoginScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
+      </AuthStack.Screen>
+      <AuthStack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+      <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
+    </AuthStack.Navigator>
+  );
+}
 
-const Stack = createStackNavigator();
+const MainStack = createStackNavigator();
+function MainStackScreen() {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+    </MainStack.Navigator>
+  );
+}
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <NavigationContainer theme={DarkTheme}>
-      <StatusBar style='light'/> 
-      <Stack.Navigator>
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-      </Stack.Navigator>
+      <StatusBar style="light" />
+      {isAuthenticated ? <MainStackScreen /> : <AuthStackScreen setIsAuthenticated={setIsAuthenticated} />}
     </NavigationContainer>
   );
 }

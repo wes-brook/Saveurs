@@ -16,7 +16,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'rea
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Note: need to build 2 widget things, one for ingredients, one for the card stack of recipes
-export default function PantryScreen({ navigation }) {
+const HomeScreen = ({ navigation }) => {
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={styles.container}>
     <View style={styles.container}>
@@ -105,5 +105,5 @@ const styles = StyleSheet.create({
   },
 });
 
- 
+export default HomeScreen;
  
