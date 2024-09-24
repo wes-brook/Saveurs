@@ -14,33 +14,61 @@
 import React, { useState } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
+import FavoritesScreen from './screens/FavoritesScreen';
+import SettingsScreen from './screens/SettingsScreen';
 import ForgotPassword from './screens/ForgotPassword';
 import SignUp from './screens/SignUp';
-import { StatusBar } from 'expo-status-bar';
 
-const AuthStack = createStackNavigator();
-function AuthStackScreen({ setIsAuthenticated }) {
+import { StatusBar } from 'expo-status-bar';
+import { Ionicons } from '@expo/vector-icons'; // For tab bar icons
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function AuthStack({ setIsAuthenticated }) {
   return (
-    <AuthStack.Navigator>
-      <AuthStack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
-      <AuthStack.Screen name="LoginScreen" options={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="LoginScreen">
         {(props) => <LoginScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
-      </AuthStack.Screen>
-      <AuthStack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-      <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-    </AuthStack.Navigator>
+      </Stack.Screen>
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+    </Stack.Navigator>
   );
 }
 
-const MainStack = createStackNavigator();
-function MainStackScreen() {
+function HomeTabs() {
   return (
-    <MainStack.Navigator>
-      <MainStack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-    </MainStack.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
+          if (route.name === 'HomeScreen') {
+            iconName = 'home-outline';
+          } else if (route.name === 'Favorites') {
+            iconName = 'star-outline';
+          } else if (route.name === 'Settings') {
+            iconName = 'settings';
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarShowLabel: false,
+      })}
+      tabBarOptions={{
+        activeTintColor: '#FFAA7B',
+        inactiveTintColor: 'gray',
+      }}
+    >
+      <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }}/>
+    </Tab.Navigator>
   );
 }
 
@@ -50,7 +78,8 @@ export default function App() {
   return (
     <NavigationContainer theme={DarkTheme}>
       <StatusBar style="light" />
-      {isAuthenticated ? <MainStackScreen /> : <AuthStackScreen setIsAuthenticated={setIsAuthenticated} />}
+      {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
     </NavigationContainer>
   );
 }
+

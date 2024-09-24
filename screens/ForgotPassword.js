@@ -15,7 +15,7 @@
  import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
  import { LinearGradient } from 'expo-linear-gradient';
  
- const LoginScreen = ({ navigation }) => {
+ const ForgotPassword = ({ navigation }) => {
    return (
      <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.container}>
        
@@ -106,6 +106,6 @@
    },
  });
  
- export default LoginScreen;
+ export default ForgotPassword;
  
  
