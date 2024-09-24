@@ -8,24 +8,26 @@
  *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
  * 
  *  User Notice:
- *    - Will want to move navigation flow into seperate js file in future [9/17/24]
+ *    - ///
  * ========================================================================================================================== */
 
 import React, { useState } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StatusBar } from 'expo-status-bar';
+import { Ionicons } from '@expo/vector-icons'; 
 
-import WelcomeScreen from './screens/WelcomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import FavoritesScreen from './screens/FavoritesScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import ForgotPassword from './screens/ForgotPassword';
+// Authentication screens
+import WelcomeScreen from './screens/Auth/WelcomeScreen';
+import LoginScreen from './screens/Auth/LoginScreen';
+import ForgotPassword from './screens/Auth/ForgotPassword';
 import SignUp from './screens/SignUp';
 
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons'; // For tab bar icons
+// Core application screens
+import HomeScreen from './screens/Tabs/HomeScreen';
+import FavoritesScreen from './screens/Tabs/FavoritesScreen';
+import SettingsScreen from './screens/Tabs/SettingsScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
