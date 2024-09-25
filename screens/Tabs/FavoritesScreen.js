@@ -20,7 +20,7 @@ const FavoritesScreen = ({ navigation }) => {
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.container}>
         <View style={styles.container}>
-            <Image source={require('../../assets/icon.png')} style={styles.logo} />
+            <Image source={require('../../assets/icon_no_title.png')} style={styles.logo} />
             <Text style={styles.title}>Favorites</Text>
         </View>
     </LinearGradient>

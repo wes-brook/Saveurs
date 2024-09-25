@@ -11,8 +11,8 @@
  *    - Need to change this file name to "SignInScreen.js"
  * ========================================================================================================================== */
 
-import React, {useState} from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { signInWithEmailAndPassword } from '../../node_modules/firebase/auth';
@@ -22,6 +22,35 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const auth = FIREBASE_AUTH;
+
+  const bounceValue = useRef(new Animated.Value(1)).current;
+
+  // Animated logo every 3 seconds
+  useEffect(() => {
+    const bounce = () => {
+      Animated.sequence([
+        Animated.timing(bounceValue, {
+          toValue: 1.1, 
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    };
+
+    // Initial bounce
+    bounce();
+
+    // Set interval for every 3 seconds
+    const interval = setInterval(bounce, 3000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, [bounceValue]);
 
   const signIn = async () => {
     setLoading(true);
@@ -42,7 +71,10 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
       <Text style={styles.title}>Sign In</Text>
-      <Image source={require('../../assets/icon.png')} style={styles.logo} />
+      <Animated.Image 
+        source={require('../../assets/icon_no_title.png')} 
+        style={[styles.logo, { transform: [{ scale: bounceValue }] }]} 
+      />
       <View style={styles.inputContainer}>
         <TextInput 
           style={styles.input} 
