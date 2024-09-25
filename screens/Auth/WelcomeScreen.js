@@ -22,7 +22,7 @@ const WelcomeScreen = ({ navigation }) => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('LoginScreen')}>
           <LinearGradient colors={['#AE3838', '#4E1818']} style={styles.container}>
-            <Image source={require('../assets/icon.png')} style={styles.logo} />
+            <Image source={require('../../assets/icon.png')} style={styles.logo} />
             <View style={[styles.line, { top: linePosition }]} />
             <Text style={styles.buttonText}>Tap to begin</Text>
           </LinearGradient>

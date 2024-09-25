@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Image source={require('../assets/icon.png')} style={styles.logo} />
+        <Image source={require('../../assets/icon.png')} style={styles.logo} />
         <Text style={styles.headerText}>Your Pantry</Text>
       </View>
 

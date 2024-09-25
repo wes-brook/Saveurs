@@ -14,8 +14,8 @@
  import React, {useState} from 'react';
  import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
  import { LinearGradient } from 'expo-linear-gradient';
- import { FIREBASE_AUTH } from '../FirebaseConfig';
- import { createUserWithEmailAndPassword } from 'firebase/auth';
+ import { FIREBASE_AUTH } from '../../FirebaseConfig';
+ import { createUserWithEmailAndPassword } from '../../node_modules/firebase/auth';
  
  const LoginScreen = ({ navigation }) => {
 
@@ -25,7 +25,7 @@
   const auth = FIREBASE_AUTH;
 
   const signUp = async () => {
-    setLoading(true);
+    setLoading(true);s
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
@@ -48,7 +48,7 @@
        <Text style={styles.title}>Sign Up</Text>
  
        {/* Display logo */}
-       <Image source={require('../assets/icon.png')} style={styles.logo} />
+       <Image source={require('../../assets/icon.png')} style={styles.logo} />
  
        {/* Display & handle user inputs for login */}
        <View style={styles.inputContainer}>

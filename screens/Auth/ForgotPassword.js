@@ -23,7 +23,7 @@
        <Text style={styles.title}>Reset Password</Text>
  
        {/* Display logo */}
-       <Image source={require('../assets/icon.png')} style={styles.logo} />
+       <Image source={require('../../assets/icon.png')} style={styles.logo} />
  
        {/* Display & handle user inputs for login */}
        <View style={styles.inputContainer}>

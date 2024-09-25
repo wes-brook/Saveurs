@@ -14,8 +14,8 @@
 import React, {useState} from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FIREBASE_AUTH } from '../FirebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../../FirebaseConfig';
+import { signInWithEmailAndPassword } from '../../node_modules/firebase/auth';
 
 const LoginScreen = ({ navigation, setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
@@ -42,7 +42,7 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
       <Text style={styles.title}>Sign In</Text>
-      <Image source={require('../assets/icon.png')} style={styles.logo} />
+      <Image source={require('../../assets/icon.png')} style={styles.logo} />
       <View style={styles.inputContainer}>
         <TextInput 
           style={styles.input} 
