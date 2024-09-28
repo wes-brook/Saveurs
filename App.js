@@ -2,21 +2,28 @@
  *  File: App.js
  *  Author: Wesly Barayuga
  *  Date: 9/17/2024
- *  Purpose: Facilitate app work flow
+ *  Purpose: Entry point into this mobile application. Handle user navigation flow. 
+ * 
+ *  How to run: 1) For initial setup, run "npm install" to install required dependencies
+ *              2) Execute "npx expo start" to start the development server
+ *              3) Scan the QR code with your mobile device to launch the app
+ * 
+ *  Features:   >> App            Main function
+ *              >> AuthStack      Screen navigation container for user authentication and login
+ *              >> HomeTabs       Screen navigation container for bottom navigation bar
  * 
  *  Revision History:
  *    - version 0.0 :: 09/17/2024 :: Initial build :: Wesly Barayuga
  * 
  *  User Notice:
- *    - ///
+ *    - This app is a prototype that utilizes an independant mobile app called "Expo Go" which can be downloaded via IOS for Android Play
+ * 
  * ========================================================================================================================== */
 
 
 
 
-/*|==========================================================================================================================
- *|                                                   IMPORTS
- *|========================================================================================================================== */
+//---IMPORTS---------------------------------------------------------------=
 
 import React, { useState } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
@@ -36,14 +43,30 @@ import HomeScreen from './screens/Tabs/HomeScreen';
 import FavoritesScreen from './screens/Tabs/FavoritesScreen';
 import SettingsScreen from './screens/Tabs/SettingsScreen';
 
-/*|==========================================================================================================================
- *|                                                   APP FLOW
- *|========================================================================================================================== */
+//-------------------------------------------------------------------------=
+
+
+
+
+//---APP-FLOW-----------------------------------------------------------------------------------=
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// ///
+
+// Entry point into our mobile application
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  return (
+    <NavigationContainer theme={DarkTheme}>
+      <StatusBar style="light" />
+      {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
+    </NavigationContainer>
+  );
+}
+
+// Screen navigation container for user authentication and login
 function AuthStack({ setIsAuthenticated }) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -57,7 +80,7 @@ function AuthStack({ setIsAuthenticated }) {
   );
 }
 
-// ///
+// Helper function for screen navigation container of bottom navigation bar
 function getScreenOptions({ route }) {
   const icons = {
     HomeScreen: 'home-outline',
@@ -77,7 +100,7 @@ function getScreenOptions({ route }) {
   };
 }
 
-// ///
+// Screen navigation container for bottom navigation bar
 function HomeTabs() {
   return (
     <Tab.Navigator screenOptions={getScreenOptions}>
@@ -88,16 +111,4 @@ function HomeTabs() {
   );
 }
 
-
-// ///
-export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  return (
-    <NavigationContainer theme={DarkTheme}>
-      <StatusBar style="light" />
-      {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
-    </NavigationContainer>
-  );
-}
-
+//---------------------------------------------------------------------------------------------=

@@ -38,8 +38,8 @@ const HomeScreen = ({ navigation }) => {
         </View>
 
         {/* Card Stack */}
-        <ScrollView horizontal style={styles.cardStack}>
-          {Array.from({ length: 5 }).map((_, index) => (
+        <ScrollView vertical style={styles.cardStack}>
+          {Array.from({ length: 8 }).map((_, index) => (
             <View key={index} style={styles.card}></View>
           ))}
         </ScrollView>
@@ -52,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 40,
   },
   header: {
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   pantryGrid: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     width: '50%',
     justifyContent: 'space-between',
@@ -99,6 +99,8 @@ const styles = StyleSheet.create({
   },
   card: {
     height: 70,
+    width: 100,
+    left: 70,
     borderRadius: 10,
     backgroundColor: '#D3A756', // golden card color
     marginBottom: 10,

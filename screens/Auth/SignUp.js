@@ -11,69 +11,122 @@
  *    - ///
  * ========================================================================================================================== */
 
- import React, {useState} from 'react';
- import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+ import React, {useState, useRef} from 'react';
+ import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
  import { LinearGradient } from 'expo-linear-gradient';
  import { FIREBASE_AUTH } from '../../FirebaseConfig';
  import { createUserWithEmailAndPassword } from '../../node_modules/firebase/auth';
  
  const LoginScreen = ({ navigation }) => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const auth = FIREBASE_AUTH;
 
+  // Create Animated values for shake animation
+  const emailShake = useRef(new Animated.Value(0)).current;
+  const passwordShake = useRef(new Animated.Value(0)).current;
+
+  // Shake animation function
+  const shakeInput = (inputShake) => {
+    Animated.sequence([
+      Animated.timing(inputShake, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(inputShake, {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(inputShake, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(inputShake, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
   const signUp = async () => {
-    setLoading(true);s
+    if (!email) {
+      shakeInput(emailShake);
+      return;
+    }
+    if (!password) {
+      shakeInput(passwordShake);
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response);
       alert("Account created! You may now sign in.");
-      return true;  // Return true on success
+      return true; // Return true on success
     } catch (error) {
-      console.log(error);
       alert("Sign up failed: " + error.message);
       return false; // Return false on failure
     } finally {
-      setLoading(false); // Note: "finally" will always run no matter what
+      setLoading(false);
     }
   };
-  
 
-   return (
-     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.container}>
-       
-       {/* Display "Sign In" title */}
-       <Text style={styles.title}>Sign Up</Text>
- 
-       {/* Display logo */}
-       <Image source={require('../../assets/icon.png')} style={styles.logo} />
- 
-       {/* Display & handle user inputs for login */}
-       <View style={styles.inputContainer}>
-         <TextInput style={styles.input} autoCapitalize="none" placeholder="Enter Email" keyboardType="email-address" onChangeText={(text) => setEmail(text)}/>
-         <TextInput style={styles.input} autoCapitalize="none" placeholder="Enter Password" secureTextEntry={true} onChangeText={(text) => setPassword (text)}/>
-       </View>
- 
-       {/* Handle "Next" button transition to "HomeScreen.js" */}
-       <TouchableOpacity style={styles.button} onPress={async () => {const success = await signUp(); if (success) {navigation.navigate('LoginScreen');}}}>
+  return (
+    <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.container}>
+      <Text style={styles.title}>Sign Up</Text>
+
+      <Image source={require('../../assets/icon.png')} style={styles.logo} />
+
+      <View style={styles.inputContainer}>
+        <Animated.View style={{ transform: [{ translateX: emailShake }] }}>
+          <TextInput 
+            style={styles.input} 
+            autoCapitalize="none" 
+            placeholder="Enter Email" 
+            keyboardType="email-address" 
+            onChangeText={(text) => setEmail(text)} 
+          />
+        </Animated.View>
+
+        <Animated.View style={{ transform: [{ translateX: passwordShake }] }}>
+          <TextInput 
+            style={styles.input} 
+            autoCapitalize="none" 
+            placeholder="Enter Password" 
+            secureTextEntry={true} 
+            onChangeText={(text) => setPassword(text)} 
+          />
+        </Animated.View>
+      </View>
+
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={async () => {
+          const success = await signUp();
+          if (success) {
+            navigation.navigate('LoginScreen');
+          }
+        }}
+      >
         <Text style={styles.buttonText}>Create Account</Text>
-       </TouchableOpacity>
- 
-       {/* Handle "Sign Up" button transition to "SignUp.js" */}
-       <View style={styles.signUpContainer}>
+      </TouchableOpacity>
+
+      <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>
           Already have an Account?{" "}  
           <Text style={styles.signUpText} onPress={() => navigation.navigate('LoginScreen')}>
             Login
           </Text>
         </Text>
-       </View>
-
-     </LinearGradient>
-   );
- };
+      </View>
+    </LinearGradient>
+  );
+};
  
  const styles = StyleSheet.create({
    container: {

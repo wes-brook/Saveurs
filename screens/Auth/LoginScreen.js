@@ -25,12 +25,15 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
 
   const bounceValue = useRef(new Animated.Value(1)).current;
 
+  const emailShake = useRef(new Animated.Value(0)).current;
+  const passwordShake = useRef(new Animated.Value(0)).current;
+
   // Animated logo every 3 seconds
   useEffect(() => {
     const bounce = () => {
       Animated.sequence([
         Animated.timing(bounceValue, {
-          toValue: 1.1, 
+          toValue: 1.1,
           duration: 500,
           useNativeDriver: true,
         }),
@@ -42,26 +45,53 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
       ]).start();
     };
 
-    // Initial bounce
     bounce();
-
-    // Set interval for every 3 seconds
     const interval = setInterval(bounce, 3000);
-
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, [bounceValue]);
 
-  const signIn = async () => {
+  const shakeInput = (inputShake) => {
+    Animated.sequence([
+      Animated.timing(inputShake, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(inputShake, {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(inputShake, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(inputShake, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const handleSignIn = async () => {
+    if (!email) {
+      shakeInput(emailShake);
+      return;
+    }
+    if (!password) {
+      shakeInput(passwordShake);
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      setIsAuthenticated(true); // Set authenticated status to true after successful login
+      setIsAuthenticated(true);
       return true;
     } catch (error) {
-      console.log(error);
-      alert("Invalid email or password. Please try again.");
+      Alert.alert('Invalid email or password. Please try again.');
       return false;
     } finally {
       setLoading(false);
@@ -76,22 +106,28 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
         style={[styles.logo, { transform: [{ scale: bounceValue }] }]} 
       />
       <View style={styles.inputContainer}>
-        <TextInput 
-          style={styles.input} 
-          value={email} 
-          placeholder="Enter Email" 
-          keyboardType="email-address" 
-          autoCapitalize="none" 
-          onChangeText={(text) => setEmail(text)} 
-        />
-        <TextInput 
-          style={styles.input} 
-          value={password} 
-          placeholder="Enter Password" 
-          secureTextEntry={true} 
-          autoCapitalize="none" 
-          onChangeText={(text) => setPassword(text)} 
-        />
+        <Animated.View style={{ transform: [{ translateX: emailShake }] }}>
+          <TextInput 
+            style={styles.input} 
+            value={email} 
+            placeholder="Enter Email" 
+            keyboardType="email-address" 
+            autoCapitalize="none" 
+            onChangeText={(text) => setEmail(text)} 
+          />
+        </Animated.View>
+
+        <Animated.View style={{ transform: [{ translateX: passwordShake }] }}>
+          <TextInput 
+            style={styles.input} 
+            value={password} 
+            placeholder="Enter Password" 
+            secureTextEntry={true} 
+            autoCapitalize="none" 
+            onChangeText={(text) => setPassword(text)} 
+          />
+        </Animated.View>
+
         <TouchableOpacity>
           <Text style={styles.forgotPassword} onPress={() => navigation.navigate('ForgotPassword')}>
             Forgot Password?
@@ -102,7 +138,7 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
       <TouchableOpacity 
         style={styles.button} 
         onPress={async () => {
-          const success = await signIn();
+          const success = await handleSignIn();
           if (success) {
             navigation.navigate("HomeScreen");
           }
