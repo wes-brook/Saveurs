@@ -11,12 +11,15 @@
  *    - ///
  * ========================================================================================================================== */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 const SettingsScreen = ({ navigation }) => {
+
+    useEffect(() => console.log(`[${new Date().toLocaleTimeString()}] Launching "SettingsScreen.js"`), []); // #### DEBUG ####
+
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
         <View style={styles.container}>

@@ -11,7 +11,7 @@
  *    - ///
  * ========================================================================================================================== */
 
- import React, {useState, useRef} from 'react';
+ import React, {useState, useRef, useEffect} from 'react';
  import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
  import { LinearGradient } from 'expo-linear-gradient';
  import { FIREBASE_AUTH } from '../../FirebaseConfig';
@@ -27,37 +27,25 @@
   const emailShake = useRef(new Animated.Value(0)).current;
   const passwordShake = useRef(new Animated.Value(0)).current;
 
-  // Shake animation function
+  useEffect(() => console.log(`[${new Date().toLocaleTimeString()}] Launching "SignUp.js"`), []); // #### DEBUG ####
+
+  // Function to shake input fields if user taps "Sign In" button without providing input
   const shakeInput = (inputShake) => {
     Animated.sequence([
-      Animated.timing(inputShake, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(inputShake, {
-        toValue: -10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(inputShake, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(inputShake, {
-        toValue: 0,
-        duration: 100,
-        useNativeDriver: true,
-      }),
+      Animated.timing(inputShake, { toValue: 10,  duration: 100, useNativeDriver: true }),
+      Animated.timing(inputShake, { toValue: -10, duration: 100, useNativeDriver: true }),
+      Animated.timing(inputShake, { toValue: 10,  duration: 100, useNativeDriver: true }),
+      Animated.timing(inputShake, { toValue: 0,   duration: 100, useNativeDriver: true }),
     ]).start();
   };
 
+  // Function to call FireBase API to create user account
   const signUp = async () => {
     if (!email) {
       shakeInput(emailShake);
       return;
     }
+
     if (!password) {
       shakeInput(passwordShake);
       return;
@@ -75,6 +63,16 @@
       setLoading(false);
     }
   };
+
+  // Function to handle events on user sign up success
+  const handleSignUp = async () => {
+    const success = await signUp(); 
+    if (success) { 
+      console.log(`[${new Date().toLocaleTimeString()}] User account successfully created`);
+      navigation.navigate('LoginScreen'); 
+    }
+  };
+  
 
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.container}>
@@ -104,15 +102,7 @@
         </Animated.View>
       </View>
 
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={async () => {
-          const success = await signUp();
-          if (success) {
-            navigation.navigate('LoginScreen');
-          }
-        }}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
 

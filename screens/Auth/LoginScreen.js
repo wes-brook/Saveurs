@@ -12,74 +12,77 @@
  * ========================================================================================================================== */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, Animated, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { signInWithEmailAndPassword } from '../../node_modules/firebase/auth';
 
 const LoginScreen = ({ navigation, setIsAuthenticated }) => {
+  const logoMainPath = require('../../assets/icon_no_title_no_stars.png');
+  const logoLeftPath = require('../../assets/icon_left_star.png');
+  const logoRightPath = require('../../assets/icon_right_star.png');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const auth = FIREBASE_AUTH;
 
-  const bounceValue = useRef(new Animated.Value(1)).current;
+  // Create separate bounce values for each logo
+  const bounceValueMain = useRef(new Animated.Value(1)).current;
+  const bounceValueLeft = useRef(new Animated.Value(1)).current;
+  const bounceValueRight = useRef(new Animated.Value(1)).current;
 
   const emailShake = useRef(new Animated.Value(0)).current;
   const passwordShake = useRef(new Animated.Value(0)).current;
 
-  // Animated logo every 3 seconds
-  useEffect(() => {
+  // #### DEBUG PURPOSES ####
+  useEffect(() => console.log(`[${new Date().toLocaleTimeString()}] Launching "LoginScreen.js"`), []); // #### DEBUG ####
+
+  // Function to animate logos
+  const startBounceAnimation = (bounceValue, interval) => {
     const bounce = () => {
       Animated.sequence([
-        Animated.timing(bounceValue, {
-          toValue: 1.1,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(bounceValue, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }),
+        Animated.timing(bounceValue, { toValue: 1.1, duration: 500, useNativeDriver: true }),
+        Animated.timing(bounceValue, { toValue: 1, duration: 500, useNativeDriver: true }),
       ]).start();
     };
 
     bounce();
-    const interval = setInterval(bounce, 3000);
-    return () => clearInterval(interval);
-  }, [bounceValue]);
+    const animationInterval = setInterval(bounce, interval);
+    return animationInterval;
+  };
 
+  useEffect(() => {
+    // Start animations with different intervals
+    const intervalMain = startBounceAnimation(bounceValueMain, 3000); // 3 seconds for main logo
+    const intervalLeft = startBounceAnimation(bounceValueLeft, 2000); // 2 seconds for left logo
+    const intervalRight = startBounceAnimation(bounceValueRight, 1000); // 1 second for right logo
+
+    // Clear intervals on component unmount
+    return () => {
+      clearInterval(intervalMain);
+      clearInterval(intervalLeft);
+      clearInterval(intervalRight);
+    };
+  }, [bounceValueMain, bounceValueLeft, bounceValueRight]);
+
+  // Function to shake input fields if user taps "Sign In" button without providing input
   const shakeInput = (inputShake) => {
     Animated.sequence([
-      Animated.timing(inputShake, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(inputShake, {
-        toValue: -10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(inputShake, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(inputShake, {
-        toValue: 0,
-        duration: 100,
-        useNativeDriver: true,
-      }),
+      Animated.timing(inputShake, { toValue: 10, duration: 100, useNativeDriver: true }),
+      Animated.timing(inputShake, { toValue: -10, duration: 100, useNativeDriver: true }),
+      Animated.timing(inputShake, { toValue: 10, duration: 100, useNativeDriver: true }),
+      Animated.timing(inputShake, { toValue: 0, duration: 100, useNativeDriver: true }),
     ]).start();
   };
 
+  // Function to handle user login
   const handleSignIn = async () => {
     if (!email) {
       shakeInput(emailShake);
       return;
     }
+
     if (!password) {
       shakeInput(passwordShake);
       return;
@@ -87,7 +90,10 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
 
     setLoading(true);
     try {
+      console.log(`[${new Date().toLocaleDateString()}] Running user login...`);
       const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      console.log(`[${new Date().toLocaleDateString()}] User logged in successfully...`);
       setIsAuthenticated(true);
       return true;
     } catch (error) {
@@ -101,10 +107,9 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.container}>
       <Text style={styles.title}>Sign In</Text>
-      <Animated.Image 
-        source={require('../../assets/icon_no_title.png')} 
-        style={[styles.logo, { transform: [{ scale: bounceValue }] }]} 
-      />
+      <Animated.Image source={logoMainPath} style={[styles.logo, { transform: [{ scale: bounceValueMain }] }]} />
+      <Animated.Image source={logoLeftPath} style={[styles.logo, { transform: [{ scale: bounceValueLeft }] }]} />
+      <Animated.Image source={logoRightPath} style={[styles.logo, { transform: [{ scale: bounceValueRight }] }]} />
       <View style={styles.inputContainer}>
         <Animated.View style={{ transform: [{ translateX: emailShake }] }}>
           <TextInput 
@@ -192,7 +197,6 @@ const styles = StyleSheet.create({
     width: 330,
     alignItems: 'center',
     marginBottom: 30,
-    width: 300,
   },
   buttonText: {
     color: '#fff',
@@ -229,4 +233,3 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-

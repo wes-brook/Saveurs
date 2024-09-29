@@ -24,7 +24,6 @@
 
 
 //---IMPORTS---------------------------------------------------------------=
-
 import React, { useState } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -42,16 +41,15 @@ import SignUp from './screens/Auth/SignUp';
 import HomeScreen from './screens/Tabs/HomeScreen';
 import FavoritesScreen from './screens/Tabs/FavoritesScreen';
 import SettingsScreen from './screens/Tabs/SettingsScreen';
-
-//-------------------------------------------------------------------------=
+//---------------------------------------------------------------IMPORTS---=
 
 
 
 
 //---APP-FLOW-----------------------------------------------------------------------------------=
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const StackAuth = createStackNavigator();
+const StackTabs = createBottomTabNavigator();
 
 
 // Entry point into our mobile application
@@ -69,14 +67,14 @@ export default function App() {
 // Screen navigation container for user authentication and login
 function AuthStack({ setIsAuthenticated }) {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="LoginScreen">
+    <StackAuth.Navigator screenOptions={{ headerShown: false }}>
+      <StackAuth.Screen name="Welcome" component={WelcomeScreen} />
+      <StackAuth.Screen name="LoginScreen">
         {(props) => <LoginScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
-      </Stack.Screen>
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-    </Stack.Navigator>
+      </StackAuth.Screen>
+      <StackAuth.Screen name="SignUp" component={SignUp} />
+      <StackAuth.Screen name="ForgotPassword" component={ForgotPassword} />
+    </StackAuth.Navigator>
   );
 }
 
@@ -103,12 +101,12 @@ function getScreenOptions({ route }) {
 // Screen navigation container for bottom navigation bar
 function HomeTabs() {
   return (
-    <Tab.Navigator screenOptions={getScreenOptions}>
-      <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
-    </Tab.Navigator>
+    <StackTabs.Navigator screenOptions={getScreenOptions}>
+      <StackTabs.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+      <StackTabs.Screen name="Favorites" component={FavoritesScreen} options={{ headerShown: false }} />
+      <StackTabs.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+    </StackTabs.Navigator>
   );
 }
 
-//---------------------------------------------------------------------------------------------=
+//----------------------------------------------------------------------------------APP-FLOW---=

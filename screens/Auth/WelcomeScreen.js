@@ -11,7 +11,7 @@
  *    - ///
  * ========================================================================================================================== */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -19,8 +19,15 @@ const WelcomeScreen = ({ navigation }) => {
     const { height } = Dimensions.get('window');
     const linePosition = height * 0.618; // 1/4 from the bottom
 
+    useEffect(() => console.log(`[${new Date().toLocaleTimeString()}] Launching "WelcomeScreen.js"`), []); // #### DEBUG ####
+
+    const handleTap = () => {
+      console.log(`[${new Date().toLocaleTimeString()}] Screen tapped`);
+      navigation.navigate('LoginScreen');
+    }
+
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('LoginScreen')}>
+        <TouchableOpacity style={styles.container} onPress={handleTap}>
           <LinearGradient colors={['#AE3838', '#4E1818']} style={styles.container}>
             <Image source={require('../../assets/icon.png')} style={styles.logo} />
             <View style={[styles.line, { top: linePosition }]} />
