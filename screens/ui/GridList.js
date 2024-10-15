@@ -25,7 +25,7 @@ const IngredientInput = () => {
 
   return (
     <View style={{ padding: 6 }}>
-      <Text style={styles.heading}>Ingredients</Text>
+      <Text style={styles.heading}></Text>
 
       {/* Display the list of ingredients in a grid */}
       <FlatList
