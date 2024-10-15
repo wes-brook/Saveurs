@@ -59,8 +59,11 @@ export default function App() {
   return (
     <NavigationContainer theme={DarkTheme}>
       <StatusBar style="light" />
+      {/* COMMENTED OUT FOR DEBUG
       {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
-    </NavigationContainer>
+          COMMENTED OUT FOR DEBUG */}
+      <HomeTabs/>
+      </NavigationContainer>
   );
 }
 

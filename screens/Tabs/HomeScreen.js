@@ -18,6 +18,8 @@
 import React, {useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import GridList from '../ui/GridList';
+import RecipeStack from '../ui/RecipeStack';
 //---------------------------------------------------------------IMPORTS---=
 
 
@@ -39,32 +41,17 @@ const HomeScreen = ({ navigation }) => {
    */
   return (
     <LinearGradient colors={['#4E1818', '#AE3838']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={styles.container}>
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Image source={require('../../assets/icon_no_title.png')} style={styles.logo} />
-        <Text style={styles.headerText}>Your Pantry</Text>
-      </View>
-
-      {/* Pantry Grid */}
-      <View style={styles.contentContainer}>
-        <View style={styles.pantryGrid}>
-          <TouchableOpacity style={styles.pantryItem} onScroll={handleScroll}>
-            <Text style={styles.addText}>+</Text>
-          </TouchableOpacity>
-          {Array.from({ length: 8 }).map((_, index) => (
-            <View key={index} style={styles.pantryItem}></View>
-          ))}
+        {/* Header */}
+        <View style={styles.header}>
+          <Image source={require('../../assets/icon_no_title.png')} style={styles.logo} />
+          <Text style={styles.headerText}>Your Pantry</Text>
         </View>
-
-        {/* Card Stack */}
-        <ScrollView vertical style={styles.cardStack}>
-          {Array.from({ length: 8 }).map((_, index) => (
-            <View key={index} style={styles.card}></View>
-          ))}
-        </ScrollView>
-      </View>
-    </View>
+    
+        {/* Pantry Grid */}
+        <View style={styles.contentContainer}>
+          <GridList/>
+          <RecipeStack/>
+        </View>
     </LinearGradient>
   );
 }
@@ -72,8 +59,8 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 40,
+    paddingHorizontal: 20,
+    paddingVertical: 80,
   },
   header: {
     flexDirection: 'row',
@@ -113,17 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: '#8E001C', // dark red for the plus icon
     fontWeight: 'bold',
-  },
-  cardStack: {
-    width: '45%',
-  },
-  card: {
-    height: 70,
-    width: 100,
-    left: 70,
-    borderRadius: 10,
-    backgroundColor: '#D3A756', // golden card color
-    marginBottom: 10,
   },
 });
 
