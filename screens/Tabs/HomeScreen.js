@@ -20,6 +20,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'rea
 import { LinearGradient } from 'expo-linear-gradient';
 import GridList from '../ui/GridList';
 import RecipeStack from '../ui/RecipeStack';
+import { IngredientsProvider } from '../ui/IngredientsContext';
 //---------------------------------------------------------------IMPORTS---=
 
 
@@ -28,11 +29,6 @@ import RecipeStack from '../ui/RecipeStack';
 const HomeScreen = ({ navigation }) => {
 
   useEffect(() => console.log(`[${new Date().toLocaleTimeString()}] Launching "HomeScreen.js"`), []); // #### DEBUG ####
-
-  const handleScroll = (event) => {
-    const scrollY = event.nativeEvent.contentOffset.y;
-    console.log("User scrolled to: ", scrollY);
-  }
 
   /* **** IMPORTANT: JS Component Return Type Crash Course ****
    *  - .js components return JSX (JavaScript XML) code that allows us to write HTML-like code in JS
@@ -44,13 +40,14 @@ const HomeScreen = ({ navigation }) => {
         {/* Header */}
         <View style={styles.header}>
           <Image source={require('../../assets/icon_no_title.png')} style={styles.logo} />
-          <Text style={styles.headerText}>Your Pantry</Text>
         </View>
     
-        {/* Pantry Grid */}
+        {/* Pantry Grid & Recipe Stack */}
         <View style={styles.contentContainer}>
-          <GridList/>
-          <RecipeStack/>
+          <IngredientsProvider>
+            <GridList/>
+            <RecipeStack/>
+          </IngredientsProvider>
         </View>
     </LinearGradient>
   );
@@ -71,11 +68,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 10,
-  },
-  headerText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
   },
   contentContainer: {
     flexDirection: 'row',

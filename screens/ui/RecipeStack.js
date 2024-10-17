@@ -1,17 +1,22 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet, Text, Animated, SafeAreaView, Dimensions, TouchableOpacity} from 'react-native';
+import { useIngredients } from './IngredientsContext';
 
 const cardHeight = 120; // Set this to match your card height
 const cardPadding = 19; // Padding between cards
 const { height } = Dimensions.get("window");
 const midScreen = height / 4; // Calculate the middle of the screen
 
+// Spoonacula API Key: 1ba1908c45884fc580347821b2c85942
+
 const RecipeStack = () => {
+    const { ingredients } = useIngredients();
+    
     const y = new Animated.Value(0); // Animated value for scrolling
 
     // Render the recipe cards
     const renderCards = () => {
-        return Array.from({ length: 10 }).map((_, index) => {
+        return ingredients.map((ingredient, index) => {
             // Calculate input range for the current card in relation to the center of the screen
             const inputRange = [
                 (index - 1) * (cardHeight + cardPadding) - midScreen,
@@ -37,7 +42,7 @@ const RecipeStack = () => {
             return (
                 <TouchableOpacity key={index} onPress={() => navigation.navigate('RecipeDetail', { recipeId: index + 1 })} style={{ width: '90%' }}>
                     <Animated.View key={index} style={[styles.card, { opacity, transform: [{ scale }] }]}>
-                        <Text style={styles.cardText}>Recipe {index + 1}</Text>
+                        <Text style={styles.cardText}>{ingredient}</Text>
                     </Animated.View>
                 </TouchableOpacity>
             );

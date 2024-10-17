@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Button, Alert, StyleSheet, Text, FlatList } from 'react-native';
+import { useIngredients } from './IngredientsContext';
 
 const IngredientInput = () => {
-  // Define a fixed number of ingredient boxes
-  const numberOfBoxes = 12; // You can change this to whatever number you need
-  const [ingredients, setIngredients] = useState(Array(numberOfBoxes).fill('')); // Initialize with empty strings
+  // Get ingredients and setIngredients from context
+  const { ingredients, setIngredients } = useIngredients(); // Initialize with empty strings
 
   // Function to handle adding a new ingredient at a specific index
   const addIngredient = (index) => {
@@ -25,34 +25,37 @@ const IngredientInput = () => {
 
   return (
     <View style={{ padding: 6 }}>
-      <Text style={styles.heading}></Text>
-
-      {/* Display the list of ingredients in a grid */}
-      <FlatList
-        contentContainerStyle={styles.grid}
-        numColumns={2}
-        data={ingredients}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => {
-          return (
-            <View style={styles.item}>
-              <Text style={styles.itemText}>{item || 'Empty'}</Text>
-              {/* Add a button to edit the ingredient */}
-              <Button title="+" onPress={() => addIngredient(index)} color="white" />
-            </View>
-          );
-        }}
-      />
+      <Text style={styles.heading}>Your Pantry</Text>
+      
+      <View style={styles.ingredientBox}>
+        {/* Display the list of ingredients in a grid */}
+        <FlatList
+          contentContainerStyle={styles.grid}
+          numColumns={2}
+          data={ingredients}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => {
+            return (
+              <View style={styles.item}>
+                <Text style={styles.itemText}>{item}</Text>
+                {/* Add a button to edit the ingredient */}
+                <Button title = "" onPress={() => addIngredient(index)}/>
+              </View>
+            );
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
     opacity: 50,
     margin: 5,
     width: 80,
+    height: 80,
     padding: 8,
     color: 'white',
     textAlign: 'center',
@@ -72,11 +75,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    color: 'white',
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginTop: 20,
+    color: 'white',
     textAlign: 'center',
+  },
+  ingredientBox: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    opacity: 50,
+    color: 'white',
+    width: 200,
+    height: 475,
+    textAlign: 'center',
+    borderRadius: 10,
+    shadowColor: '#000', // Shadow color 
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset 
+    shadowOpacity: 0.3, // Shadow opacity 
+    shadowRadius: 4, // Shadow radius
   }
 });
 
