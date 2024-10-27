@@ -52,18 +52,16 @@ const IngredientInput = () => {
 const styles = StyleSheet.create({
   item: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    opacity: 50,
     margin: 5,
     width: 80,
     height: 80,
-    padding: 8,
-    color: 'white',
-    textAlign: 'center',
     borderRadius: 10,
-    shadowColor: '#000', // Shadow color 
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset 
-    shadowOpacity: 0.3, // Shadow opacity 
-    shadowRadius: 4, // Shadow radius
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    justifyContent: 'center',  // Center items vertically
+    alignItems: 'center',      // Center items horizontally
   },
   itemText: {
     color: 'white',
@@ -82,17 +80,16 @@ const styles = StyleSheet.create({
   },
   ingredientBox: {
     backgroundColor: 'rgba(255,255,255,0.2)',
-    opacity: 50,
-    color: 'white',
     width: 200,
     height: 475,
-    textAlign: 'center',
     borderRadius: 10,
-    shadowColor: '#000', // Shadow color 
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset 
-    shadowOpacity: 0.3, // Shadow opacity 
-    shadowRadius: 4, // Shadow radius
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    alignItems: 'center', // Centers grid items horizontally within the box
   }
 });
+
 
 export default IngredientInput;

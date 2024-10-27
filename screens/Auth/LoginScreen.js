@@ -145,7 +145,7 @@ const LoginScreen = ({ navigation, setIsAuthenticated }) => {
         onPress={async () => {
           const success = await handleSignIn();
           if (success) {
-            navigation.navigate("HomeScreen");
+            //navigation.navigate("HomeScreen"); This code was giving us issues
           }
         }}
       >                 

@@ -41,15 +41,16 @@ import SignUp from './screens/Auth/SignUp';
 import HomeScreen from './screens/Tabs/HomeScreen';
 import FavoritesScreen from './screens/Tabs/FavoritesScreen';
 import SettingsScreen from './screens/Tabs/SettingsScreen';
+import RecipeDetail from './screens/ui/RecipeDetail';
 //---------------------------------------------------------------IMPORTS---=
 
 
 
 
-//---APP-FLOW-----------------------------------------------------------------------------------=
-
+/// Define the main Stack and Bottom Tab navigators
 const StackAuth = createStackNavigator();
 const StackTabs = createBottomTabNavigator();
+const StackHome = createStackNavigator(); // New stack navigator for HomeScreen
 
 
 // Entry point into our mobile application
@@ -59,9 +60,8 @@ export default function App() {
   return (
     <NavigationContainer theme={DarkTheme}>
       <StatusBar style="light" />
-      {/* {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />} */}
-      <HomeTabs />
-      </NavigationContainer>
+      {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
+    </NavigationContainer>
   );
 }
 
@@ -89,7 +89,7 @@ function getScreenOptions({ route }) {
 
   return {
     tabBarIcon: ({ color, size }) => {
-      const iconName = icons[route.name] || 'default-icon'; // Fallback icon
+      const iconName = icons[route.name] || 'home-outline'; // Fallback icon
       return <Ionicons name={iconName} size={size} color={color} />;
     },
     tabBarShowLabel: false,
@@ -103,10 +103,20 @@ function getScreenOptions({ route }) {
 function HomeTabs() {
   return (
     <StackTabs.Navigator screenOptions={getScreenOptions}>
-      <StackTabs.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+      <StackTabs.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
       <StackTabs.Screen name="Favorites" component={FavoritesScreen} options={{ headerShown: false }} />
       <StackTabs.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
     </StackTabs.Navigator>
+  );
+}
+
+// Create a stack navigator specifically for Home
+function HomeStack() {
+  return (
+    <StackHome.Navigator>
+      <StackHome.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+      <StackHome.Screen name="RecipeDetail" component={RecipeDetail} options={{ title: 'Recipe Details' }} />
+    </StackHome.Navigator>
   );
 }
 
