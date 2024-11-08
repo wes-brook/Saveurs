@@ -29,7 +29,8 @@ import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+import { View, StyleSheet, Platform, Dimensions } from 'react-native';
 
 // Authentication screens
 import WelcomeScreen from './screens/Auth/WelcomeScreen';
@@ -44,23 +45,24 @@ import SettingsScreen from './screens/Tabs/SettingsScreen';
 import RecipeDetail from './screens/ui/RecipeDetail';
 //---------------------------------------------------------------IMPORTS---=
 
-
-
-
 /// Define the main Stack and Bottom Tab navigators
 const StackAuth = createStackNavigator();
 const StackTabs = createBottomTabNavigator();
 const StackHome = createStackNavigator(); // New stack navigator for HomeScreen
 
-
 // Entry point into our mobile application
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Detect if the app is running on web
+  const isWeb = Platform.OS === 'web';
+
   return (
     <NavigationContainer theme={DarkTheme}>
       <StatusBar style="light" />
-      {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
+      <View style={isWeb ? styles.webContainer : styles.mobileContainer}>
+        {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
+      </View>
     </NavigationContainer>
   );
 }
@@ -120,4 +122,21 @@ function HomeStack() {
   );
 }
 
-//----------------------------------------------------------------------------------APP-FLOW---=
+// Styles for web and mobile views
+const styles = StyleSheet.create({
+  webContainer: {
+    width: 393, // iPhone 14 Pro width
+    height: 852, // iPhone 14 Pro height
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    margin: 'auto', // Center horizontally and vertically
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  mobileContainer: {
+    flex: 1,
+  },
+});

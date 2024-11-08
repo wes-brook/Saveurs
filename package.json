@@ -18,9 +18,10 @@
     "@types/react": "~18.2.79",
     "axios": "^1.7.7",
     "expo": "^51.0.34",
+    "expo-blur": "~13.0.2",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
-    "firebase": "^10.13.2",
+    "firebase": "^11.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
@@ -29,8 +30,7 @@
     "react-native-screens": "^3.31.1",
     "react-native-splash-screen": "^3.3.0",
     "react-native-web": "~0.19.10",
-    "typescript": "~5.3.3",
-    "expo-blur": "~13.0.2"
+    "typescript": "~5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

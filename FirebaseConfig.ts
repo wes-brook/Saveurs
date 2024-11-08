@@ -11,12 +11,10 @@
  *    - ///
  * ========================================================================================================================== */
 
-// SDK imports
 import { initializeApp } from "firebase/app";
-import { getAuth, initializeAuth, getReactNativePersistence } from "firebase/auth"; 
+import { getAuth, initializeAuth, inMemoryPersistence } from "firebase/auth"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBTwcU2BqvCcerQEDCbPvTMImb52vT3gew",
   authDomain: "saveurs-396d9.firebaseapp.com",
@@ -27,10 +25,10 @@ const firebaseConfig = {
   measurementId: "G-NZDG1F9ZQ5"
 };
 
-// Initialize Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 
-// Initialize Firebase Auth with AsyncStorage persistence for React Native
+// Use session-based persistence as a fallback
 export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
-  persistence: getReactNativePersistence(AsyncStorage)
+  persistence: inMemoryPersistence
 });
+

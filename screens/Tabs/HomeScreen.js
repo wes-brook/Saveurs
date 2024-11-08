@@ -26,7 +26,7 @@ import { IngredientsProvider } from '../ui/IngredientsContext';
 
 
 // HomeScreen component
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ }) => {
 
   useEffect(() => console.log(`[${new Date().toLocaleTimeString()}] Launching "HomeScreen.js"`), []); // #### DEBUG ####
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingVertical: 80,
+    paddingVertical: 100,
   },
   header: {
     flexDirection: 'row',
@@ -65,10 +65,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-    width: 40,
-    height: 40,
-    marginRight: 10,
+    width: 100,        // Increase size here
+    height: 100,       // Increase size here
+    position: 'absolute',  // Use absolute positioning
+    transform: [{ translateX: -30 }], // Offset by half the width
   },
+
   contentContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
