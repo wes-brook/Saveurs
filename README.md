@@ -2,29 +2,43 @@
 
 Saveurs is a recipe app designed to help users easily discover, organize, and personalize their cooking experience. It brings the world of culinary exploration to your fingertips by combining ingredient-based recipe searches with image-rich results.
 
+---
+
 # Demo
 ![Saveurs Demo](other/demo.gif)
+
+---
+
 ## Features
 
-- **Recipe Discovery**: Find recipes based on your available ingredients.
-- **Personalized Pantry**: Add ingredients to your pantry and get tailored recipe suggestions.
-- **Cuisine Selection**: Choose your preferred cuisines to tailor results.
-- **Image-rich Interface**: Ingredient images powered by Unsplash for a visually appealing experience.
-- **Favorites and Saved Recipes**: Save and organize your favorite recipes for easy access.
+- **Recipe Discovery**: Search and find recipes based on the ingredients you have available.
+- **Personalized Pantry**: Add and manage ingredients in your pantry to receive tailored recipe suggestions.
+- **Cuisine Preferences**: Choose your preferred cuisines (e.g., Italian, Mexican, Mediterranean) to filter recipes.
+- **Image-rich Interface**: High-quality ingredient images powered by Unsplash for a visually appealing experience.
+- **Favorites**: Save and organize your favorite recipes for easy access anytime.
+
+---
 
 ## Usage
-- **Discover Recipes**: Browse and filter recipes based on your chosen ingredients.
-- **Save Recipes**: Favorite recipes for future reference.
-- **Customize Your Pantry**: Add ingredients and let Saveurs provide recipe ideas based on your pantry items.
+
+1. **Discover Recipes**: Browse recipes by entering available ingredients into your pantry.
+2. **Save Recipes**: Easily save and manage your favorite recipes for later use.
+3. **Customizable Pantry**: Add and remove ingredients from your pantry to get personalized recipe suggestions.
+
+---
 
 ## Tech Stack
 
-- **React Native**: Cross-platform app development.
-- **Firebase**: Authentication and backend support for user data.
-- **Unsplash API**: Fetch images for ingredients to create an engaging UI.
-- **Spoonacular API**: Recipe and ingredient information.
+- **React Native**: Cross-platform framework for building the mobile application.
+- **Firebase**: Used for user authentication and backend management.
+- **Unsplash API**: Fetches high-quality ingredient images to enhance the UI.
+- **Spoonacular API**: Provides detailed recipe and ingredient data for generating recommendations.
+
+---
 
 ## Installation
+
+To set up and run Saveurs locally, follow these steps:
 
 1. Clone the repository:
    ```bash
@@ -40,6 +54,13 @@ Saveurs is a recipe app designed to help users easily discover, organize, and pe
    ```bash
    npx expo start
    ```
+
+---
+
+## Acknowledgements
+-- **Unsplash API**: Provides beautiful, free images for ingredients.
+-- **Spoonacular API**: Supplies a wide variety of recipe and ingredient data.
+-- **React Native & Expo**: A powerful framework for building cross-platform mobile apps.
 
 
 
