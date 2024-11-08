@@ -2,6 +2,8 @@
 
 Saveurs is a recipe app designed to help users easily discover, organize, and personalize their cooking experience. It brings the world of culinary exploration to your fingertips by combining ingredient-based recipe searches with image-rich results.
 
+# Demo
+![Saveurs Demo](other/demo.gif)
 ## Features
 
 - **Recipe Discovery**: Find recipes based on your available ingredients.
