@@ -58,9 +58,9 @@ To set up and run Saveurs locally, follow these steps:
 ---
 
 ## Acknowledgements
--- **Unsplash API**: Provides beautiful, free images for ingredients.
--- **Spoonacular API**: Supplies a wide variety of recipe and ingredient data.
--- **React Native & Expo**: A powerful framework for building cross-platform mobile apps.
+- **Unsplash API**: Provides beautiful, free images for ingredients.
+- **Spoonacular API**: Supplies a wide variety of recipe and ingredient data.
+- **React Native & Expo**: A powerful framework for building cross-platform mobile apps.
 
 
 
