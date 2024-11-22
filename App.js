@@ -51,21 +51,27 @@ const StackTabs = createBottomTabNavigator();
 const StackHome = createStackNavigator(); // New stack navigator for HomeScreen
 
 // Entry point into our mobile application
+import { CuisinePreferenceProvider } from './screens/ui/CuisinePreference';
+import { IngredientsProvider } from './screens/ui/IngredientsContext';
+
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Detect if the app is running on web
   const isWeb = Platform.OS === 'web';
 
   return (
-    <NavigationContainer theme={DarkTheme}>
-      <StatusBar style="light" />
-      <View style={isWeb ? styles.webContainer : styles.mobileContainer}>
-        {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
-      </View>
-    </NavigationContainer>
+    <CuisinePreferenceProvider>
+      <IngredientsProvider>
+        <NavigationContainer theme={DarkTheme}>
+          <StatusBar style="light" />
+          <View style={isWeb ? styles.webContainer : styles.mobileContainer}>
+            {isAuthenticated ? <HomeTabs /> : <AuthStack setIsAuthenticated={setIsAuthenticated} />}
+          </View>
+        </NavigationContainer>
+      </IngredientsProvider>
+    </CuisinePreferenceProvider>
   );
 }
+
 
 // Screen navigation container for user authentication and login
 function AuthStack({ setIsAuthenticated }) {

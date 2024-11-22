@@ -4,6 +4,7 @@ import { useIngredients } from './IngredientsContext';
 import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient'; // Use expo-linear-gradient
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+import { useCuisinePreference } from './CuisinePreference';
 
 const cardHeight = 120; 
 const cardPadding = 19; 
@@ -13,18 +14,24 @@ const midScreen = height / 8;
 const RecipeStack = () => {
     const { ingredients } = useIngredients();
     const [recipes, setRecipes] = useState([]);
+    const { cuisinePreference } = useCuisinePreference()
     const [isFetching, setIsFetching] = useState(false);
     const navigation = useNavigation(); // Use useNavigation hook
     const y = new Animated.Value(0);
 
     const fetchRecipes = async () => {
         try {
+            console.log(`[${new Date().toLocaleTimeString()}] Fetching recipes with the following details:`);
+            console.log(`Ingredients: ${ingredients.length > 0 ? ingredients.join(', ') : 'None'}`);
+            console.log(`Cuisine Preference: ${cuisinePreference || 'None'}`);
+            
             setIsFetching(true);
             const ingredientString = ingredients.join(',');
             const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients`, {
                 params: {
                     ingredients: ingredientString,
                     number: 500,
+                    cuisine: cuisinePreference, 
                     apiKey: '1ba1908c45884fc580347821b2c85942',
                 },
             });

@@ -21,6 +21,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import GridList from '../ui/GridList';
 import RecipeStack from '../ui/RecipeStack';
 import { IngredientsProvider } from '../ui/IngredientsContext';
+import { CuisinePreferenceProvider } from '../ui/CuisinePreference';
 //---------------------------------------------------------------IMPORTS---=
 
 
@@ -44,10 +45,10 @@ const HomeScreen = ({ }) => {
     
         {/* Pantry Grid & Recipe Stack */}
         <View style={styles.contentContainer}>
-          <IngredientsProvider>
-            <GridList/>
-            <RecipeStack/>
-          </IngredientsProvider>
+
+              <GridList/>
+              <RecipeStack/>
+
         </View>
     </LinearGradient>
   );
